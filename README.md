@@ -7,5 +7,5 @@ The project estimates house prices. Training imputes and scales features, tunes 
 ```sh
 python -m pip install -r requirements.txt
 python -m pytest tests/
-python -m scripts.dsa_automatiza_treino
+python -m scripts.automatiza_treino
 ```

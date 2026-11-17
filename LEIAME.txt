@@ -26,17 +26,17 @@ cap10/
 │
 ├── pipeline/                          		# Código-fonte para pipeline de ML modularizado
 │   ├── __init__.py
-│   ├── dsa_preprocessa_dados.py     		# Manipulando valores ausentes, codificação, dimensionamento
-│   ├── dsa_engenharia_atributos.py    		# Seleção de recursos, transformação
-│   ├── dsa_otimiza_hiperparametros.py  	# RandomizedSearchCV para ajuste de hiperparâmetros
-│   ├── dsa_treina_modelo.py         		# Treinamento de modelo de ML
-│   ├── dsa_avalia_modelo.py         		# Avaliação de modelo e análise residual
-│   ├── dsa_salva_artefatos.py         		# Salvar modelo e artefatos de pré-processamento
+│   ├── preprocessa_dados.py     		# Manipulando valores ausentes, codificação, dimensionamento
+│   ├── engenharia_atributos.py    		# Seleção de recursos, transformação
+│   ├── otimiza_hiperparametros.py  	# RandomizedSearchCV para ajuste de hiperparâmetros
+│   ├── treina_modelo.py         		# Treinamento de modelo de ML
+│   ├── avalia_modelo.py         		# Avaliação de modelo e análise residual
+│   ├── salva_artefatos.py         		# Salvar modelo e artefatos de pré-processamento
 │
 ├── scripts/                      			# Scripts de automação
-│   ├── dsa_automatiza_treino.py        	# Automatiza o pipeline de treinamento
-│   ├── dsa_automatiza_inferencia.py    	# Automatiza o pipeline de inferência (previsões)
-│   ├── dsa_inferencia_app.py    			# Usado para previsões na app
+│   ├── automatiza_treino.py        	# Automatiza o pipeline de treinamento
+│   ├── automatiza_inferencia.py    	# Automatiza o pipeline de inferência (previsões)
+│   ├── inferencia_app.py    			# Usado para previsões na app
 │
 ├── app/                          			# Deploy do modelo via app web
 │   ├── app.py                    			# Endpoint de inferência
@@ -44,9 +44,9 @@ cap10/
 │       └── index.html            			# Página HTML para inputs do usuário
 │
 ├── tests/                        			# Testes unitários para o Pipeline CI/CD
-│   ├── dsa_testa_preprocessamento.py
-│   ├── dsa_testa_engenharia_atributos.py
-│   ├── dsa_testa_treinamento_modelo.py
+│   ├── testa_preprocessamento.py
+│   ├── testa_engenharia_atributos.py
+│   ├── testa_treinamento_modelo.py
 │
 ├── Dockerfile                    			# Dockerfile para criação de container
 ├── requirements.txt              			# Dependências
@@ -74,11 +74,11 @@ CD (Continuous Deployment)
 
 # Abra o terminal ou prompt de comando, navegue até a pasta com os arquivos e execute o comando abaixo para criar um ambiente virtual:
 
-conda create --name dsap4 python=3.12
+conda create --name mlops-p4 python=3.12
 
 # Ative o ambiente:
 
-conda activate dsap4 (ou: source activate dsap4)
+conda activate mlops-p4 (ou: source activate mlops-p4)
 
 # Instale o pip e as dependências:
 
@@ -87,16 +87,16 @@ pip install -r requirements.txt
 
 # Execute os os comandos abaixo:
 
-python scripts/dsa_automatiza_treino.py
-python scripts/dsa_automatiza_inferencia.py
+python scripts/automatiza_treino.py
+python scripts/automatiza_inferencia.py
 pytest -v
 python app/app.py
 docker build -t projeto4-mlops .
-docker run -d -p 5002:5002 --name dsa-mlops-p4 projeto4-mlops
+docker run -d -p 5002:5002 --name mlops-p4 projeto4-mlops
 
 # Siga as instruções no Capítulo 10 para configuração do Github Actions.
 
 # Use os comandos abaixo para desativar o ambiente virtual e remover o ambiente (opcional):
 
 conda deactivate
-conda remove --name dsap4 --all
+conda remove --name mlops-p4 --all

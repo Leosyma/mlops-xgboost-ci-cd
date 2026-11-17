@@ -5,7 +5,7 @@ import joblib  # Biblioteca para salvar e carregar modelos e objetos
 import os  # Biblioteca para manipulação de diretórios e arquivos
 
 # Função para salvar o modelo e os artefatos de pré-processamento
-def dsa_salva_artefatos(model, scaler, label_encoders, model_path, scaler_path, label_encoders_path):
+def salva_artefatos(model, scaler, label_encoders, model_path, scaler_path, label_encoders_path):
     
     # Garante que o diretório de destino existe, criando-o se necessário
     os.makedirs(os.path.dirname(model_path), exist_ok=True)

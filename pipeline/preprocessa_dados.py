@@ -6,11 +6,11 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder  # Ferramentas pa
 from sklearn.impute import SimpleImputer  # Ferramenta para tratamento de valores ausentes
 
 # Função para carregar os dados a partir de um arquivo CSV
-def dsa_carrega_dados(file_path):
+def carrega_dados(file_path):
     return pd.read_csv(file_path)  # Retorna um DataFrame com os dados lidos
 
 # Função para pré-processamento dos dados
-def dsa_preprocessa_dados(df, label_encoders=None, scaler=None, training=True):
+def preprocessa_dados(df, label_encoders=None, scaler=None, training=True):
     
     # Inicializa dicionários para armazenar os codificadores de rótulos e o escalador caso não sejam fornecidos
     if label_encoders is None:

@@ -7,7 +7,7 @@ from sklearn.tree import DecisionTreeRegressor  # Modelo de árvore de decisão 
 from sklearn.ensemble import RandomForestRegressor  # Modelo de floresta aleatória para regressão
 
 # Função para treinar múltiplos modelos de regressão
-def dsa_treina_modelo(X_train, y_train, config):
+def treina_modelo(X_train, y_train, config):
     
     # Dicionário contendo os modelos a serem treinados (em nosso caso sempre o mesmo algoritmo, mas outros poderiam ser usados)
     models = {"XGBoost": xgb.XGBRegressor(objective="reg:squarederror", random_state=config["training"]["random_state"])}

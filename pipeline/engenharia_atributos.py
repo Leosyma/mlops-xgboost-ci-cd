@@ -5,7 +5,7 @@ import pandas as pd  # Biblioteca para manipulação de dados em DataFrames
 
 # Função para criação de novos atributos e remoção de colunas desnecessárias
 # Veja a definição no Capítulo 10 do curso
-def dsa_seleciona_atributos(df):
+def seleciona_atributos(df):
     
     # Criação de novos atributos com base em relações entre colunas existentes
     df['rooms_per_household'] = df['total_rooms'] / df['households']  # Número de quartos por domicílio

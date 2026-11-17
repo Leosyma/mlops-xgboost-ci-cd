@@ -14,7 +14,7 @@ with open("config/config.yaml", "r") as file:
 
 # Função para otimização de hiperparâmetros do modelo XGBoost
 # Veja a definição no Capítulo 10 do curso
-def dsa_hyperparameter_tuning(X_train, y_train, random_state):
+def hyperparameter_tuning(X_train, y_train, random_state):
     
     # Definição da função objetivo para o Optuna realizar a otimização
     def objective(trial):

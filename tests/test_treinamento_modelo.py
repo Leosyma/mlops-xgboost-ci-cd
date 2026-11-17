@@ -8,7 +8,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import pytest
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from pipeline.dsa_treina_modelo import dsa_treina_modelo
+from pipeline.treina_modelo import treina_modelo
 
 # Load configuration
 with open("config/config.yaml", "r") as file:
@@ -40,7 +40,7 @@ def test_train_models(sample_data):
                                                         test_size=config["training"]["test_size"], 
                                                         random_state=config["training"]["random_state"])
     
-    trained_models = dsa_treina_modelo(X_train, y_train, config)
+    trained_models = treina_modelo(X_train, y_train, config)
     
     assert len(trained_models) == 1  
     

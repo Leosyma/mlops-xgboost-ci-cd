@@ -17,12 +17,12 @@ from sklearn.preprocessing import StandardScaler  # Ferramenta para normalizaç�
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Importação das funções do pipeline
-from pipeline.dsa_preprocessa_dados import dsa_carrega_dados, dsa_preprocessa_dados
-from pipeline.dsa_engenharia_atributos import dsa_seleciona_atributos
-from pipeline.dsa_treina_modelo import dsa_treina_modelo
-from pipeline.dsa_avalia_modelo import dsa_avalia_modelo
-from pipeline.dsa_otimiza_hiperparametros import dsa_hyperparameter_tuning
-from pipeline.dsa_salva_artefatos import dsa_salva_artefatos
+from pipeline.preprocessa_dados import carrega_dados, preprocessa_dados
+from pipeline.engenharia_atributos import seleciona_atributos
+from pipeline.treina_modelo import treina_modelo
+from pipeline.avalia_modelo import avalia_modelo
+from pipeline.otimiza_hiperparametros import hyperparameter_tuning
+from pipeline.salva_artefatos import salva_artefatos
 
 # Carrega a configuração de logging a partir do arquivo YAML
 with open("config/logging.yaml", "r") as file:
@@ -40,7 +40,7 @@ def main():
         logger.info("Carregando e Pré-processando Dados...")
 
         # Carrega os dados a partir do caminho especificado na configuração
-        df = dsa_carrega_dados(config["data"]["raw_path"])
+        df = carrega_dados(config["data"]["raw_path"])
 
         # Remove a coluna 'ocean_proximity' se ela estiver presente
         if "ocean_proximity" in df.columns:
@@ -51,7 +51,7 @@ def main():
         y = df["median_house_value"]
 
         # Pré-processa os dados
-        X_cleaned, _, scaler = dsa_preprocessa_dados(X)
+        X_cleaned, _, scaler = preprocessa_dados(X)
 
         logger.info("Ajustando Imputadores Para Valores Ausentes...")
         num_cols = X_cleaned.select_dtypes(include=["int64", "float64"]).columns.tolist()
@@ -62,7 +62,7 @@ def main():
             X_cleaned[num_cols] = imputer_num.fit_transform(X_cleaned[num_cols])
 
         # Seleciona os atributos mais relevantes
-        X_selected, _ = dsa_seleciona_atributos(X_cleaned)
+        X_selected, _ = seleciona_atributos(X_cleaned)
 
         # Divide os dados em treino e teste
         X_train, X_test, y_train, y_test = train_test_split(X_selected, 
@@ -71,10 +71,10 @@ def main():
                                                             random_state=config["training"]["random_state"])
 
         logger.info("Treinando Modelo...")
-        trained_models = dsa_treina_modelo(X_train, y_train, config)
+        trained_models = treina_modelo(X_train, y_train, config)
 
         logger.info("Ajuste de Hiperparâmetros Para o Melhor Modelo...")
-        best_params = dsa_hyperparameter_tuning(X_train, y_train, config["training"]["random_state"])
+        best_params = hyperparameter_tuning(X_train, y_train, config["training"]["random_state"])
         optimized_model = xgb.XGBRegressor(objective="reg:squarederror", **best_params, random_state=config["training"]["random_state"])
         optimized_model.fit(X_train, y_train)
 
@@ -82,7 +82,7 @@ def main():
         y_pred = optimized_model.predict(X_test)
 
         # Avalia o modelo
-        metricas = dsa_avalia_modelo(y_test, y_pred)
+        metricas = avalia_modelo(y_test, y_pred)
 
         # Log
         logger.info(f"Métricas de Avaliação do Modelo: {metricas}")
@@ -94,9 +94,9 @@ def main():
 
         # Salva os artefatos do modelo
         if label_encoders_path:
-            dsa_salva_artefatos(optimized_model, scaler, {}, model_path, scaler_path, label_encoders_path)
+            salva_artefatos(optimized_model, scaler, {}, model_path, scaler_path, label_encoders_path)
         else:
-            dsa_salva_artefatos(optimized_model, scaler, {}, model_path, scaler_path, "artefatos/label_encoders.pkl")
+            salva_artefatos(optimized_model, scaler, {}, model_path, scaler_path, "artefatos/label_encoders.pkl")
 
         # Salva o imputador numérico
         joblib.dump(imputer_num, "artefatos/imputer_num.pkl")

@@ -4,7 +4,7 @@
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score  # Importa funções para cálculo de erro e desempenho
 
 # Função para avaliar o desempenho do modelo
-def dsa_avalia_modelo(y_test, y_pred):
+def avalia_modelo(y_test, y_pred):
     
     # Cálculo do erro absoluto médio (MAE), que mede a média das diferenças absolutas entre os valores reais e previstos
     mae = mean_absolute_error(y_test, y_pred)

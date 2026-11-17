@@ -13,7 +13,7 @@ warnings.filterwarnings('ignore')
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Importação da função de inferência
-from scripts.dsa_inferencia_app import dsa_inferencia
+from scripts.inferencia_app import inferencia
 
 # Inicializa a aplicação Flask
 app = Flask(__name__)
@@ -37,7 +37,7 @@ def predict():
     print("Received data:", data)
     
     # Realiza a previsão com os dados processados
-    prediction = dsa_inferencia(data)
+    prediction = inferencia(data)
     
     # Renderiza a página com o resultado da previsão
     return render_template('index.html', prediction_text=f'Valor Previsto da Casa: ${prediction:,.2f}')

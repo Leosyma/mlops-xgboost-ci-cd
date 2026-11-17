@@ -6,7 +6,7 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import pytest
 import pandas as pd
-from pipeline.dsa_engenharia_atributos import dsa_seleciona_atributos
+from pipeline.engenharia_atributos import seleciona_atributos
 
 @pytest.fixture
 def sample_data():
@@ -24,7 +24,7 @@ def sample_data():
 
 def test_select_features(sample_data):
     
-    df_selected, dropped_features = dsa_seleciona_atributos(sample_data)
+    df_selected, dropped_features = seleciona_atributos(sample_data)
     
     assert 'total_rooms' in dropped_features
     assert 'total_bedrooms' in dropped_features
