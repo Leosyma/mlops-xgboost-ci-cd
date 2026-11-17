@@ -1,0 +1,102 @@
+# Projeto 4 - MLOps Nível 3 - Automação das Operações de CI/CD no Pipeline de Machine Learning e IA
+
+## Estrutura do Projeto
+```
+cap10/
+│── .github/
+│   └── workflows/
+│       └── mlops-pipeline.yml    			# Arquivo do GitHub Actions para automação
+│
+├── artefatos/                    			# Armazena modelos treinados e objetos de pré-processamento
+│   ├── optimized_xgboost_model.pkl
+│   ├── scaler.pkl
+│   ├── label_encoders.pkl
+│   ├── imputer_num.pkl
+│
+├── config/                       			# Arquivos de configuração
+│   ├── config.yaml               			# Hiperparâmetros de modelo e pré-processamento
+│   ├── logging.yaml              			# Configurações de log
+│
+├── dados/                         			# Dados brutos e processados
+│   ├── brutos/
+│   │   ├── dataset.csv
+│   ├── processados/
+│   │   ├── dados_treino.csv
+│   │   ├── dados_teste.csv
+│
+├── pipeline/                          		# Código-fonte para pipeline de ML modularizado
+│   ├── __init__.py
+│   ├── dsa_preprocessa_dados.py     		# Manipulando valores ausentes, codificação, dimensionamento
+│   ├── dsa_engenharia_atributos.py    		# Seleção de recursos, transformação
+│   ├── dsa_otimiza_hiperparametros.py  	# RandomizedSearchCV para ajuste de hiperparâmetros
+│   ├── dsa_treina_modelo.py         		# Treinamento de modelo de ML
+│   ├── dsa_avalia_modelo.py         		# Avaliação de modelo e análise residual
+│   ├── dsa_salva_artefatos.py         		# Salvar modelo e artefatos de pré-processamento
+│
+├── scripts/                      			# Scripts de automação
+│   ├── dsa_automatiza_treino.py        	# Automatiza o pipeline de treinamento
+│   ├── dsa_automatiza_inferencia.py    	# Automatiza o pipeline de inferência (previsões)
+│   ├── dsa_inferencia_app.py    			# Usado para previsões na app
+│
+├── app/                          			# Deploy do modelo via app web
+│   ├── app.py                    			# Endpoint de inferência
+│   ├── templates/
+│       └── index.html            			# Página HTML para inputs do usuário
+│
+├── tests/                        			# Testes unitários para o Pipeline CI/CD
+│   ├── dsa_testa_preprocessamento.py
+│   ├── dsa_testa_engenharia_atributos.py
+│   ├── dsa_testa_treinamento_modelo.py
+│
+├── Dockerfile                    			# Dockerfile para criação de container
+├── requirements.txt              			# Dependências
+├── LEIAME.txt                     			# Documentação do projeto
+```
+
+
+O objetivo de um Pipeline CI/CD (Continuous Integration / Continuous Deployment) é automatizar o treinamento, testes e deploy do modelo de Machine Learning, garantindo que cada alteração seja testada e implantada corretamente.
+
+🔹 O que o Pipeline irá fazer?
+
+CI (Continuous Integration)
+
+- Rodar testes unitários (pytest)
+- Rodar verificações de estilo de código (flake8)
+- Testar build do container (Docker)
+
+CD (Continuous Deployment)
+
+- Treinar (e retreinar) o modelo automaticamente
+- Salvar os artefatos treinados 
+- Atualizar e fazer deploy da API Flask
+- Fazer deploy do container no Docker Hub (opcional)
+- Deploy em AWS/GCP/Azure (opcional)
+
+# Abra o terminal ou prompt de comando, navegue até a pasta com os arquivos e execute o comando abaixo para criar um ambiente virtual:
+
+conda create --name dsap4 python=3.12
+
+# Ative o ambiente:
+
+conda activate dsap4 (ou: source activate dsap4)
+
+# Instale o pip e as dependências:
+
+conda install pip
+pip install -r requirements.txt 
+
+# Execute os os comandos abaixo:
+
+python scripts/dsa_automatiza_treino.py
+python scripts/dsa_automatiza_inferencia.py
+pytest -v
+python app/app.py
+docker build -t projeto4-mlops .
+docker run -d -p 5002:5002 --name dsa-mlops-p4 projeto4-mlops
+
+# Siga as instruções no Capítulo 10 para configuração do Github Actions.
+
+# Use os comandos abaixo para desativar o ambiente virtual e remover o ambiente (opcional):
+
+conda deactivate
+conda remove --name dsap4 --all
